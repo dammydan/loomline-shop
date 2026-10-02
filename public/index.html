@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Loomline — ready-to-wear clothing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--sky:#ece8f6;--ink:#1c1530;--chili:#6f2dbd;--mustard:#f4d35e;--white:#fff;--line:#1c153026}
+*{box-sizing:border-box}
+body{margin:0;background:var(--sky);color:var(--ink);font:400 17px/1.55 'DM Sans',system-ui,sans-serif}
+h1,h2,h3{font-family:'Bricolage Grotesque',sans-serif;line-height:1.05;margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--chili);outline-offset:2px}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 5vw;border-bottom:2px solid var(--ink);background:var(--mustard);position:sticky;top:0;z-index:5}
+.brand{font:800 26px 'Bricolage Grotesque',sans-serif;text-decoration:none}
+nav{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+button,.btn{font:700 15px 'DM Sans',sans-serif;border:2px solid var(--ink);background:var(--white);color:var(--ink);padding:9px 16px;border-radius:999px;cursor:pointer;text-decoration:none;display:inline-block}
+button.primary{background:var(--chili);color:#fff;border-color:var(--chili)}
+button:hover,.btn:hover{transform:translateY(-1px)}
+button:disabled{opacity:.5;cursor:not-allowed;transform:none}
+main{padding:5vw;max-width:1100px;margin:0 auto}
+.hero h1{font-size:clamp(44px,9vw,104px);font-weight:800;letter-spacing:-.03em;max-width:12ch}
+.hero p{max-width:46ch;font-size:19px;margin:18px 0 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px;margin-top:36px}
+.card{background:var(--white);border:2px solid var(--ink);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:8px}
+.img{position:relative;aspect-ratio:4/5;background:#e3dcf1;border-radius:12px;overflow:hidden;display:grid;place-items:center;text-align:center;padding:12px;font-weight:700}
+.img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.card label{margin:6px 0 2px;font-size:14px}
+select{font:inherit;padding:8px 10px;border:2px solid var(--ink);border-radius:10px;background:#fff}
+small{opacity:.7}
+.card h3{font-size:22px}
+.card p{margin:0;flex:1}
+.card .row{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+.price{font-weight:700;font-size:18px}
+.panel{background:var(--white);border:2px solid var(--ink);border-radius:18px;padding:24px;max-width:640px;margin-top:24px}
+.panel h2{font-size:38px;margin-bottom:16px}
+.line{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.qty{display:flex;align-items:center;gap:6px}
+.qty button{padding:2px 11px}
+label{display:block;font-weight:700;margin:14px 0 4px}
+input,textarea{width:100%;font:inherit;padding:10px 12px;border:2px solid var(--ink);border-radius:10px;background:#fff}
+.total{font:800 28px 'Bricolage Grotesque',sans-serif;display:flex;justify-content:space-between;margin-top:14px}
+.msg{margin-top:12px;font-weight:500}.err{color:var(--chili)}
+.hidden{display:none}
+@media (prefers-reduced-motion:reduce){button,.btn{transition:none}button:hover{transform:none}}
+</style>
+</head>
+<body>
+<header>
+  <a class="brand" href="#shop">Loomline</a>
+  <nav>
+    <span id="who"></span>
+    <button id="authBtn">Sign in with Google</button>
+    <button id="cartBtn" class="primary">Cart (0)</button>
+  </nav>
+</header>
+<main>
+  <section id="shop">
+    <div class="hero">
+      <h1>Ready-to-wear that fits like it was made for you.</h1>
+      <p>Everyday pieces cut from honest fabrics. Pick it up today, wear it tomorrow. Ships in 3–5 days.</p>
+    </div>
+    <div class="grid" id="grid" aria-live="polite">Loading products…</div>
+  </section>
+
+  <section id="checkout" class="hidden">
+    <div class="panel">
+      <h2>Check out</h2>
+      <div id="lines"></div>
+      <div class="total"><span>Total</span><span id="total">$0.00</span></div>
+      <div id="needLogin" class="hidden">
+        <p class="msg">Sign in so we can save your order and email the confirmation.</p>
+        <a class="btn primary" href="/auth/google">Sign in with Google</a>
+      </div>
+      <div id="form">
+        <label for="fullName">Full name</label><input id="fullName" autocomplete="name">
+        <label for="address">Delivery address</label><textarea id="address" rows="3" autocomplete="street-address"></textarea>
+        <p><button id="placeBtn" class="primary">Place order</button></p>
+      </div>
+      <p id="msg" class="msg" role="status"></p>
+    </div>
+  </section>
+
+  <section id="done" class="hidden">
+    <div class="panel">
+      <h2>Order placed 👕</h2>
+      <p id="doneText"></p>
+      <a class="btn" href="#shop">Keep shopping</a>
+    </div>
+  </section>
+</main>
+
+<script>
+const $ = id => document.getElementById(id);
+const money = k => '₦' + (k / 100).toLocaleString('en-NG');
+let products = [], me = null;
+let cart = {}; try { cart = JSON.parse(localStorage.getItem('cart') || '{}'); } catch (e) {}
+Object.keys(cart).forEach(k => { if (!k.includes('|')) delete cart[k]; }); // drop carts saved before sizes existed
+
+const save = () => { try { localStorage.setItem('cart', JSON.stringify(cart)); } catch (e) {} };
+const count = () => Object.values(cart).reduce((a, b) => a + b, 0);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+async function api(url, opts) {
+  const r = await fetch(url, opts && { headers: {'Content-Type':'application/json'}, ...opts });
+  const data = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(data.error || 'Request failed');
+  return data;
+}
+
+function renderProducts() {
+  $('grid').innerHTML = products.map(p => `
+    <article class="card">
+      <div class="img"><span>${esc(p.name)}</span>${p.image_url ? `<img src="${esc(p.image_url)}" alt="${esc(p.name)}" loading="lazy" onerror="this.remove()">` : ''}</div>
+      <h3>${esc(p.name)}</h3><p>${esc(p.description)}</p>
+      <label for="size-${p.id}">Size</label>
+      <select id="size-${p.id}">${p.sizes.split(',').map(s => `<option>${esc(s.trim())}</option>`).join('')}</select>
+      <div class="row"><span class="price">${money(p.price_kobo)}</span>
+      <button data-buy="${p.id}">Add to cart</button></div>
+    </article>`).join('');
+}
+
+function renderCart() {
+  $('cartBtn').textContent = `Cart (${count()})`;
+  const lines = Object.keys(cart).map(key => {
+    const [id, size] = key.split('|');
+    return { key, size, p: products.find(p => p.id == id), q: cart[key] };
+  }).filter(l => l.p);
+  let total = 0;
+  $('lines').innerHTML = lines.length ? lines.map(l => {
+    total += l.p.price_kobo * l.q;
+    return `<div class="line"><span>${esc(l.p.name)}<br><small>Size ${esc(l.size)}</small></span>
+      <span class="qty"><button data-dec="${esc(l.key)}" aria-label="Fewer">−</button>${l.q}<button data-add="${esc(l.key)}" aria-label="More">+</button></span>
+      <span>${money(l.p.price_kobo * l.q)}</span></div>`;
+  }).join('') : '<p>Your cart is empty. Add a piece from the shop.</p>';
+  $('total').textContent = money(total);
+  $('placeBtn').disabled = !lines.length;
+}
+
+function renderAuth() {
+  $('who').textContent = me ? me.name : '';
+  $('authBtn').textContent = me ? 'Sign out' : 'Sign in with Google';
+  $('needLogin').classList.toggle('hidden', !!me);
+  $('form').classList.toggle('hidden', !me);
+  if (me && !$('fullName').value) $('fullName').value = me.name;
+}
+
+function route() {
+  const h = location.hash.slice(1) || 'shop';
+  ['shop','checkout','done'].forEach(s => $(s).classList.toggle('hidden', s !== h));
+  if (h === 'checkout') renderCart();
+  window.scrollTo(0, 0);
+}
+
+document.addEventListener('click', e => {
+  const buy = e.target.closest('[data-buy]'), add = e.target.closest('[data-add]'), dec = e.target.closest('[data-dec]');
+  if (buy) {
+    const key = buy.dataset.buy + '|' + $('size-' + buy.dataset.buy).value;
+    cart[key] = (cart[key] || 0) + 1;
+    buy.textContent = 'Added'; setTimeout(() => buy.textContent = 'Add to cart', 1200);
+  } else if (add) cart[add.dataset.add]++;
+  else if (dec) { const k = dec.dataset.dec; if (--cart[k] <= 0) delete cart[k]; }
+  else return;
+  save(); renderCart();
+});
+$('cartBtn').onclick = () => location.hash = 'checkout';
+$('authBtn').onclick = async () => {
+  if (me) { await api('/auth/logout', { method: 'POST' }); me = null; renderAuth(); }
+  else location.href = '/auth/google';
+};
+$('placeBtn').onclick = async () => {
+  $('msg').className = 'msg'; $('msg').textContent = 'Placing your order…'; $('placeBtn').disabled = true;
+  try {
+    const items = Object.entries(cart).map(([key, quantity]) => { const [id, size] = key.split('|'); return { productId: +id, size, quantity }; });
+    const r = await api('/api/checkout', { method: 'POST', body: JSON.stringify({
+      fullName: $('fullName').value, address: $('address').value, items }) });
+    cart = {}; save(); renderCart();
+    $('doneText').textContent = `Order #${r.orderId} for ${money(r.total_kobo)} is saved. ` +
+      (r.emailSent ? `A confirmation is on its way to ${me.email}.` : 'We could not send the confirmation email, but your order is safe.');
+    $('msg').textContent = ''; location.hash = 'done';
+  } catch (err) {
+    $('msg').className = 'msg err'; $('msg').textContent = err.message; $('placeBtn').disabled = false;
+  }
+};
+window.addEventListener('hashchange', route);
+
+(async () => {
+  try { [products, me] = await Promise.all([api('/api/products'), api('/api/me')]); }
+  catch (e) { $('grid').textContent = 'Could not load products. Refresh to try again.'; return; }
+  renderProducts(); renderAuth(); renderCart(); route();
+})();
+</script>
+</body>
+</html>
