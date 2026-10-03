@@ -4,104 +4,188 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Loomline — ready-to-wear clothing</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-:root{--sky:#ece8f6;--ink:#1c1530;--chili:#6f2dbd;--mustard:#f4d35e;--white:#fff;--line:#1c153026}
+:root{--o:#f56a00;--o2:#ff9a3d;--ink:#222;--mute:#767676;--bg:#f5f5f5;--line:#e8e8e8;--green:#0a8a3a}
 *{box-sizing:border-box}
-body{margin:0;background:var(--sky);color:var(--ink);font:400 17px/1.55 'DM Sans',system-ui,sans-serif}
-h1,h2,h3{font-family:'Bricolage Grotesque',sans-serif;line-height:1.05;margin:0}
-a{color:inherit}
-:focus-visible{outline:3px solid var(--chili);outline-offset:2px}
-header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 5vw;border-bottom:2px solid var(--ink);background:var(--mustard);position:sticky;top:0;z-index:5}
-.brand{font:800 26px 'Bricolage Grotesque',sans-serif;text-decoration:none}
-nav{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
-button,.btn{font:700 15px 'DM Sans',sans-serif;border:2px solid var(--ink);background:var(--white);color:var(--ink);padding:9px 16px;border-radius:999px;cursor:pointer;text-decoration:none;display:inline-block}
-button.primary{background:var(--chili);color:#fff;border-color:var(--chili)}
-button:hover,.btn:hover{transform:translateY(-1px)}
-button:disabled{opacity:.5;cursor:not-allowed;transform:none}
-main{padding:5vw;max-width:1100px;margin:0 auto}
-.hero h1{font-size:clamp(44px,9vw,104px);font-weight:800;letter-spacing:-.03em;max-width:12ch}
-.hero p{max-width:46ch;font-size:19px;margin:18px 0 0}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px;margin-top:36px}
-.card{background:var(--white);border:2px solid var(--ink);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:8px}
-.img{position:relative;aspect-ratio:4/5;background:#e3dcf1;border-radius:12px;overflow:hidden;display:grid;place-items:center;text-align:center;padding:12px;font-weight:700}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.45 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:3px solid var(--o);outline-offset:2px}
+.hidden{display:none!important}
+.strip{background:#fff3e8;color:#b34a00;text-align:center;font-size:13px;padding:6px 10px;font-weight:600}
+header{background:#fff;position:sticky;top:0;z-index:5;border-bottom:1px solid var(--line)}
+.top{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;padding:10px 3vw;max-width:1760px;margin:0 auto}
+.brand{font:800 28px/1 inherit;color:var(--o);letter-spacing:-.5px}
+.search{display:flex;border:2px solid var(--o);border-radius:999px;overflow:hidden;background:#fff;max-width:640px;width:100%;justify-self:center}
+.search input{flex:1;border:0;padding:10px 16px;font:inherit;min-width:0;outline:0}
+.search span{background:var(--o);color:#fff;padding:0 18px;display:grid;place-items:center}
+.right{display:flex;gap:12px;align-items:center;position:relative}
+.cart{position:relative;background:var(--o);color:#fff;border:0;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;cursor:pointer}
+#badge{position:absolute;top:-4px;right:-4px;background:#fff;color:var(--o);border:2px solid var(--o);border-radius:999px;font:800 11px/1 inherit;padding:2px 5px}
+#avatar{width:44px;height:44px;border-radius:50%;background:#222;color:#fff;border:0;font:700 17px inherit;cursor:pointer}
+.menu{position:absolute;right:0;top:54px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;min-width:190px;box-shadow:0 10px 30px #0002;display:grid;gap:8px}
+nav{display:flex;gap:6px;padding:0 3vw;max-width:1760px;margin:0 auto;overflow-x:auto}
+nav a{padding:10px 16px;font-weight:700;border-bottom:3px solid transparent;white-space:nowrap}
+nav a.active{color:var(--o);border-color:var(--o)}
+button,.btn{font:700 16px inherit;border:0;border-radius:999px;padding:13px 26px;cursor:pointer;display:inline-block;text-align:center;transition:filter .15s}
+button:hover,.btn:hover{filter:brightness(.95)}button:disabled{opacity:.5;cursor:not-allowed}
+.org{background:var(--o);color:#fff}.dark{background:#222;color:#fff}.white{background:#fff;color:var(--o)}.out{background:#fff;color:var(--ink);border:1px solid #ccc}
+.sm{padding:9px 18px;font-size:14px}
+main{max-width:1760px;margin:0 auto;padding:14px 3vw 60px}
+.banner{background:linear-gradient(110deg,var(--o),var(--o2));color:#fff;border-radius:14px;padding:clamp(24px,5vw,54px);margin-bottom:18px}
+.banner h1{margin:0 0 8px;font-size:clamp(28px,5vw,48px);line-height:1.08;font-weight:800}
+.banner p{margin:0 0 20px;font-size:17px;max-width:46ch}
+.sec-head{display:flex;justify-content:space-between;align-items:center;margin:20px 0 10px;gap:10px;flex-wrap:wrap}
+.sec-head h2{margin:0;font-size:22px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{background:#fff;border:1px solid #ccc;color:var(--ink);border-radius:999px;padding:7px 16px;font-size:14px;font-weight:600}
+.chip.active{border-color:var(--o);color:var(--o);background:#fff3e8}
+.grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.card{background:#fff;border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
+.card:hover{box-shadow:0 6px 20px #0002}
+.img{position:relative;aspect-ratio:1;background:#f0efed;display:grid;place-items:center;text-align:center;padding:14px;overflow:hidden}
+.img span{font:700 clamp(18px,2.3vw,28px)/1.15 inherit;color:#555}
 .img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.card label{margin:6px 0 2px;font-size:14px}
-select{font:inherit;padding:8px 10px;border:2px solid var(--ink);border-radius:10px;background:#fff}
-small{opacity:.7}
-.card h3{font-size:22px}
-.card p{margin:0;flex:1}
-.card .row{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
-.price{font-weight:700;font-size:18px}
-.panel{background:var(--white);border:2px solid var(--ink);border-radius:18px;padding:24px;max-width:640px;margin-top:24px}
-.panel h2{font-size:38px;margin-bottom:16px}
-.line{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
-.qty{display:flex;align-items:center;gap:6px}
-.qty button{padding:2px 11px}
+.body{padding:10px;display:flex;flex-direction:column;gap:6px;flex:1}
+.name{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.9em}
+.tag{align-self:flex-start;border:1px solid var(--green);color:var(--green);font-size:12px;font-weight:700;border-radius:4px;padding:0 6px}
+.card>a{display:flex;flex-direction:column;flex:1}
+.prow{display:flex;justify-content:space-between;align-items:center;padding:0 10px 10px}
+.price{color:var(--o);font-weight:800;font-size:22px}
+.plus{background:var(--o);color:#fff;width:38px;height:38px;border-radius:50%;padding:0;font:700 24px/1 inherit;display:grid;place-items:center}
+.plus:hover{filter:brightness(.92)}
+.modal{position:fixed;inset:0;background:#0008;z-index:20;display:grid;place-items:center;padding:16px}
+.sheet{background:#fff;border-radius:16px;padding:22px;width:100%;max-width:380px;position:relative}
+.sheet h3{margin:0 30px 4px 0;font-size:18px}.bigp{color:var(--o);font-weight:800;font-size:26px}
+.x{position:absolute;top:8px;right:10px;background:none;font-size:28px;padding:4px 10px;color:var(--mute)}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:12px 22px;border-radius:999px;z-index:30;font-weight:700}
+.back{display:inline-block;margin:6px 0 12px;color:var(--mute)}
+.detail{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;background:#fff;border-radius:14px;padding:20px}
+.detail .img{border-radius:10px}
+.detail h1{margin:0 0 10px;font-size:24px;line-height:1.25}
+.bigprice{background:#fff3e8;border-radius:10px;padding:12px 16px;margin-bottom:14px}
+.bigprice b{color:var(--o);font-size:34px;font-weight:800}
+.lbl{font-weight:700;margin:16px 0 8px}
+.row{display:flex;gap:12px;margin:18px 0 10px;align-items:stretch}
+.qty{display:flex;align-items:center;gap:12px;border:1px solid #ccc;border-radius:999px;padding:0 8px;background:#fff}
+.qty button{background:none;color:var(--ink);padding:8px 10px;font-size:20px}
+.row .org{flex:1}.full{display:block;width:100%}
+.perks{display:grid;gap:8px;margin:18px 0;font-size:14px}
+.perks div{color:var(--green);font-weight:600}
+details{border:1px solid var(--line);border-radius:10px;padding:12px 14px}summary{cursor:pointer;font-weight:700}
+.panel{background:#fff;border-radius:14px;padding:26px;max-width:680px;margin:10px auto}
+.panel h2{margin:0 0 12px;font-size:26px}
 label{display:block;font-weight:700;margin:14px 0 4px}
-input,textarea{width:100%;font:inherit;padding:10px 12px;border:2px solid var(--ink);border-radius:10px;background:#fff}
-.total{font:800 28px 'Bricolage Grotesque',sans-serif;display:flex;justify-content:space-between;margin-top:14px}
-.msg{margin-top:12px;font-weight:500}.err{color:var(--chili)}
-.hidden{display:none}
-@media (prefers-reduced-motion:reduce){button,.btn{transition:none}button:hover{transform:none}}
+input.f,textarea{width:100%;font:inherit;padding:12px 14px;border:1px solid #ccc;border-radius:10px}
+.line{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.line .qty{padding:0 2px}.line .qty button{padding:2px 10px}
+.total{display:flex;justify-content:space-between;font-size:24px;font-weight:800;margin:16px 0}.total span:last-child{color:var(--o)}
+.msg{margin-top:12px}.err{color:#c0221a}small{color:var(--mute)}
+.about{background:#fff;border-radius:14px;padding:28px;max-width:680px;margin:10px auto}.about h1{margin-top:0}
+footer{text-align:center;color:var(--mute);font-size:13px;padding:24px}
+@media(max-width:760px){
+  .top{grid-template-columns:1fr auto}.search{grid-column:1/-1;grid-row:2;max-width:none}
+  .detail{grid-template-columns:1fr;padding:14px}
+}
+@media(max-width:1100px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:860px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:560px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
+<div class="strip">🚚 Delivery across Nigeria · Order confirmation sent to your email</div>
 <header>
-  <a class="brand" href="#shop">Loomline</a>
-  <nav>
-    <span id="who"></span>
-    <button id="authBtn">Sign in with Google</button>
-    <button id="cartBtn" class="primary">Cart (0)</button>
-  </nav>
+  <div class="top">
+    <a class="brand" href="#home">Loomline</a>
+    <label class="search" for="search" style="margin:0">
+      <input id="search" type="search" placeholder="Search for shirts, dresses, jackets…" autocomplete="off">
+      <span aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span>
+    </label>
+    <div class="right">
+      <a id="signin" class="btn dark sm" href="/auth/google">Sign in</a>
+      <div id="userBox" class="hidden">
+        <button id="avatar" aria-label="Account menu">?</button>
+        <div id="menu" class="menu hidden"><b id="menuName"></b><button id="signout" class="out sm">Sign out</button></div>
+      </div>
+      <button id="cartBtn" class="cart" aria-label="Open cart">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+        <span id="badge">0</span>
+      </button>
+    </div>
+  </div>
+  <nav><a data-v="home" href="#home">Home</a><a data-v="shop" href="#shop">All products</a><a data-v="about" href="#about">About</a></nav>
 </header>
+
 <main>
-  <section id="shop">
-    <div class="hero">
-      <h1>Ready-to-wear that fits like it was made for you.</h1>
-      <p>Everyday pieces cut from honest fabrics. Pick it up today, wear it tomorrow. Ships in 3–5 days.</p>
+  <section id="v-home">
+    <div class="banner">
+      <h1>New styles. Your size. Fast checkout.</h1>
+      <p>Everyday ready-to-wear for every day of the week, delivered across Nigeria.</p>
+      <a class="btn white" href="#shop">Shop now</a>
     </div>
-    <div class="grid" id="grid" aria-live="polite">Loading products…</div>
+    <div class="sec-head"><h2>Trending now</h2><a href="#shop" class="btn out sm">See all</a></div>
+    <div class="grid" id="homeGrid">Loading…</div>
   </section>
 
-  <section id="checkout" class="hidden">
-    <div class="panel">
-      <h2>Check out</h2>
-      <div id="lines"></div>
-      <div class="total"><span>Total</span><span id="total">$0.00</span></div>
-      <div id="needLogin" class="hidden">
-        <p class="msg">Sign in so we can save your order and email the confirmation.</p>
-        <a class="btn primary" href="/auth/google">Sign in with Google</a>
+  <section id="v-shop" class="hidden">
+    <div class="sec-head"><h2>All products</h2>
+      <div class="chips" id="sortBar">
+        <button class="chip active" data-sort="">Featured</button>
+        <button class="chip" data-sort="asc">Price: low to high</button>
+        <button class="chip" data-sort="desc">Price: high to low</button>
       </div>
-      <div id="form">
-        <label for="fullName">Full name</label><input id="fullName" autocomplete="name">
-        <label for="address">Delivery address</label><textarea id="address" rows="3" autocomplete="street-address"></textarea>
-        <p><button id="placeBtn" class="primary">Place order</button></p>
-      </div>
-      <p id="msg" class="msg" role="status"></p>
     </div>
+    <div class="grid" id="shopGrid">Loading…</div>
   </section>
 
-  <section id="done" class="hidden">
-    <div class="panel">
-      <h2>Order placed 👕</h2>
-      <p id="doneText"></p>
-      <a class="btn" href="#shop">Keep shopping</a>
+  <section id="v-product" class="hidden"><div id="product"></div></section>
+
+  <section id="v-about" class="hidden"><div class="about">
+    <h1>About Loomline</h1>
+    <p>Loomline sells ready-to-wear clothing for everyday life: well-cut shirts, jackets, skirts and dresses. Choose your size, check out in a minute, and we confirm your order by email.</p>
+    <a class="btn org" href="#shop">Start shopping</a>
+  </div></section>
+
+  <section id="v-checkout" class="hidden"><div class="panel">
+    <h2>Check out</h2>
+    <div id="lines"></div>
+    <div class="total"><span>Total</span><span id="total">₦0</span></div>
+    <div id="needLogin" class="hidden">
+      <p>Sign in so we can save your order and email the confirmation.</p>
+      <a class="btn org" href="/auth/google">Sign in with Google</a>
     </div>
-  </section>
+    <div id="form">
+      <label for="fullName">Full name</label><input class="f" id="fullName" autocomplete="name">
+      <label for="address">Delivery address</label><textarea id="address" rows="3" autocomplete="street-address"></textarea>
+      <p><button id="placeBtn" class="org full">Place order</button></p>
+    </div>
+    <p id="msg" class="msg" role="status"></p>
+  </div></section>
+
+  <section id="v-done" class="hidden"><div class="panel">
+    <h2>Order placed ✓</h2><p id="doneText"></p><a class="btn org" href="#shop">Keep shopping</a>
+  </div></section>
 </main>
+<div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="qTitle">
+  <div class="sheet">
+    <button id="qclose" class="x" aria-label="Close">×</button>
+    <h3 id="qTitle"></h3><div class="bigp" id="qPrice"></div>
+    <div class="lbl">Select size</div><div class="chips" id="qsizes"></div>
+    <button id="qadd" class="org full" style="margin-top:20px">Add to cart</button>
+  </div>
+</div>
+<div id="toast" class="toast hidden" role="status"></div>
+<footer>© Loomline · Ready-to-wear clothing</footer>
 
 <script>
 const $ = id => document.getElementById(id);
 const money = k => '₦' + (k / 100).toLocaleString('en-NG');
-let products = [], me = null;
-let cart = {}; try { cart = JSON.parse(localStorage.getItem('cart') || '{}'); } catch (e) {}
-Object.keys(cart).forEach(k => { if (!k.includes('|')) delete cart[k]; }); // drop carts saved before sizes existed
-
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let products = [], me = null, cart = {}, q = '', sort = '';
+try { cart = JSON.parse(localStorage.getItem('cart') || '{}'); } catch (e) {}
+Object.keys(cart).forEach(k => { if (!k.includes('|')) delete cart[k]; });
 const save = () => { try { localStorage.setItem('cart', JSON.stringify(cart)); } catch (e) {} };
 const count = () => Object.values(cart).reduce((a, b) => a + b, 0);
-const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
 async function api(url, opts) {
   const r = await fetch(url, opts && { headers: {'Content-Type':'application/json'}, ...opts });
@@ -110,20 +194,59 @@ async function api(url, opts) {
   return data;
 }
 
-function renderProducts() {
-  $('grid').innerHTML = products.map(p => `
-    <article class="card">
-      <div class="img"><span>${esc(p.name)}</span>${p.image_url ? `<img src="${esc(p.image_url)}" alt="${esc(p.name)}" loading="lazy" onerror="this.remove()">` : ''}</div>
-      <h3>${esc(p.name)}</h3><p>${esc(p.description)}</p>
-      <label for="size-${p.id}">Size</label>
-      <select id="size-${p.id}">${p.sizes.split(',').map(s => `<option>${esc(s.trim())}</option>`).join('')}</select>
-      <div class="row"><span class="price">${money(p.price_kobo)}</span>
-      <button data-buy="${p.id}">Add to cart</button></div>
-    </article>`).join('');
+const sizesOf = p => p.sizes.split(',').map(s => s.trim());
+const imgBlock = p => `<div class="img"><span>${esc(p.name)}</span>${p.image_url ? `<img src="${esc(p.image_url)}" alt="${esc(p.name)}" loading="lazy" onerror="this.remove()">` : ''}</div>`;
+const card = p => { const s = sizesOf(p); return `<div class="card"><a href="#product/${p.id}">${imgBlock(p)}
+  <div class="body"><div class="name">${esc(p.name)}</div><span class="tag">Sizes ${esc(s[0])}–${esc(s[s.length - 1])}</span></div></a>
+  <div class="prow"><span class="price">${money(p.price_kobo)}</span><button class="plus" data-quick="${p.id}" aria-label="Add ${esc(p.name)} to cart">+</button></div></div>`; };
+
+let quickId = null;
+function openQuick(id) {
+  const p = products.find(p => p.id == id); if (!p) return;
+  quickId = id;
+  $('qTitle').textContent = p.name; $('qPrice').textContent = money(p.price_kobo);
+  $('qsizes').innerHTML = sizesOf(p).map((s, i) => `<button class="chip${i ? '' : ' active'}" data-qsize="${esc(s)}">${esc(s)}</button>`).join('');
+  $('modal').classList.remove('hidden');
+  $('qsizes').querySelector('.chip').focus();
+}
+const closeQuick = () => $('modal').classList.add('hidden');
+function toast(msg) {
+  const t = $('toast'); t.textContent = msg; t.classList.remove('hidden');
+  clearTimeout(toast.timer); toast.timer = setTimeout(() => t.classList.add('hidden'), 1800);
+}
+
+function renderShop() {
+  let list = products.filter(p => (p.name + ' ' + p.description).toLowerCase().includes(q.trim().toLowerCase()));
+  if (sort) list = [...list].sort((a, b) => sort === 'asc' ? a.price_kobo - b.price_kobo : b.price_kobo - a.price_kobo);
+  $('shopGrid').innerHTML = list.length ? list.map(card).join('') : `<p>No products match “${esc(q)}”.</p>`;
+  document.querySelectorAll('#sortBar .chip').forEach(c => c.classList.toggle('active', c.dataset.sort === sort));
+}
+
+function renderProduct(id) {
+  const p = products.find(p => p.id == id);
+  $('product').innerHTML = !p ? '<a class="back" href="#shop">← Back to shop</a><p>We could not find that product.</p>' : `
+    <a class="back" href="#shop">← Back to shop</a>
+    <div class="detail">
+      ${imgBlock(p)}
+      <div>
+        <h1>${esc(p.name)}</h1>
+        <div class="bigprice"><b>${money(p.price_kobo)}</b></div>
+        <p>${esc(p.description)}</p>
+        <div class="lbl">Size</div>
+        <div class="chips" id="sizes">${sizesOf(p).map((s, i) => `<button class="chip${i ? '' : ' active'}" data-size="${esc(s)}">${esc(s)}</button>`).join('')}</div>
+        <div class="row">
+          <div class="qty"><button data-q="-1" aria-label="Fewer">−</button><span id="qty">1</span><button data-q="1" aria-label="More">+</button></div>
+          <button class="org" data-cart="${p.id}">Add to cart</button>
+        </div>
+        <button class="dark full" data-cart="${p.id}" data-buy="1">Buy now</button>
+        <div class="perks"><div>🚚 Delivery across Nigeria</div><div>✉️ Order confirmation by email</div><div>🔒 Secure Google sign-in</div></div>
+        <details><summary>Details</summary><p>${esc(p.description)}</p><p>Available sizes: ${esc(sizesOf(p).join(', '))}</p></details>
+      </div>
+    </div>`;
 }
 
 function renderCart() {
-  $('cartBtn').textContent = `Cart (${count()})`;
+  $('badge').textContent = count(); $('badge').classList.toggle('hidden', !count());
   const lines = Object.keys(cart).map(key => {
     const [id, size] = key.split('|');
     return { key, size, p: products.find(p => p.id == id), q: cart[key] };
@@ -133,49 +256,74 @@ function renderCart() {
     total += l.p.price_kobo * l.q;
     return `<div class="line"><span>${esc(l.p.name)}<br><small>Size ${esc(l.size)}</small></span>
       <span class="qty"><button data-dec="${esc(l.key)}" aria-label="Fewer">−</button>${l.q}<button data-add="${esc(l.key)}" aria-label="More">+</button></span>
-      <span>${money(l.p.price_kobo * l.q)}</span></div>`;
-  }).join('') : '<p>Your cart is empty. Add a piece from the shop.</p>';
+      <b>${money(l.p.price_kobo * l.q)}</b></div>`;
+  }).join('') : '<p>Your cart is empty. <a href="#shop" style="color:var(--o);font-weight:700">Browse products</a>.</p>';
   $('total').textContent = money(total);
   $('placeBtn').disabled = !lines.length;
 }
 
 function renderAuth() {
-  $('who').textContent = me ? me.name : '';
-  $('authBtn').textContent = me ? 'Sign out' : 'Sign in with Google';
+  $('signin').classList.toggle('hidden', !!me);
+  $('userBox').classList.toggle('hidden', !me);
   $('needLogin').classList.toggle('hidden', !!me);
   $('form').classList.toggle('hidden', !me);
-  if (me && !$('fullName').value) $('fullName').value = me.name;
+  if (me) {
+    $('avatar').textContent = (me.name || '?').trim().charAt(0).toUpperCase();
+    $('menuName').textContent = me.name;
+    if (!$('fullName').value) $('fullName').value = me.name;
+  }
 }
 
+const views = ['home', 'shop', 'product', 'about', 'checkout', 'done'];
 function route() {
-  const h = location.hash.slice(1) || 'shop';
-  ['shop','checkout','done'].forEach(s => $(s).classList.toggle('hidden', s !== h));
-  if (h === 'checkout') renderCart();
+  const [view, arg] = (location.hash.slice(1) || 'home').split('/');
+  const v = views.includes(view) ? view : 'home';
+  views.forEach(s => $('v-' + s).classList.toggle('hidden', s !== v));
+  document.querySelectorAll('nav a').forEach(a => a.classList.toggle('active', a.dataset.v === v || (v === 'product' && a.dataset.v === 'shop')));
+  if (v === 'shop') renderShop();
+  if (v === 'product') renderProduct(arg);
+  if (v === 'checkout') renderCart();
   window.scrollTo(0, 0);
 }
 
 document.addEventListener('click', e => {
-  const buy = e.target.closest('[data-buy]'), add = e.target.closest('[data-add]'), dec = e.target.closest('[data-dec]');
-  if (buy) {
-    const key = buy.dataset.buy + '|' + $('size-' + buy.dataset.buy).value;
-    cart[key] = (cart[key] || 0) + 1;
-    buy.textContent = 'Added'; setTimeout(() => buy.textContent = 'Add to cart', 1200);
-  } else if (add) cart[add.dataset.add]++;
-  else if (dec) { const k = dec.dataset.dec; if (--cart[k] <= 0) delete cart[k]; }
-  else return;
-  save(); renderCart();
+  const t = e.target.closest('button');
+  if (!e.target.closest('#userBox')) $('menu').classList.add('hidden');
+  if (e.target.id === 'modal') closeQuick();
+  if (!t) return;
+  if (t.id === 'avatar') $('menu').classList.toggle('hidden');
+  else if (t.dataset.quick) openQuick(t.dataset.quick);
+  else if (t.dataset.qsize) { document.querySelectorAll('#qsizes .chip').forEach(c => c.classList.remove('active')); t.classList.add('active'); }
+  else if (t.id === 'qadd') {
+    const key = quickId + '|' + document.querySelector('#qsizes .chip.active').dataset.qsize;
+    cart[key] = (cart[key] || 0) + 1; save(); renderCart(); closeQuick(); toast('Added to cart ✓');
+  }
+  else if (t.id === 'qclose') closeQuick();
+  else if (t.id === 'signout') api('/auth/logout', { method: 'POST' }).then(() => { me = null; $('menu').classList.add('hidden'); renderAuth(); });
+  else if ('sort' in t.dataset) { sort = t.dataset.sort; renderShop(); }
+  else if (t.dataset.size) { document.querySelectorAll('#sizes .chip').forEach(c => c.classList.remove('active')); t.classList.add('active'); }
+  else if (t.dataset.q) $('qty').textContent = Math.max(1, Math.min(20, +$('qty').textContent + +t.dataset.q));
+  else if (t.dataset.cart) {
+    const key = t.dataset.cart + '|' + document.querySelector('#sizes .chip.active').dataset.size;
+    cart[key] = (cart[key] || 0) + +$('qty').textContent;
+    save(); renderCart();
+    if (t.dataset.buy) location.hash = 'checkout';
+    else { t.textContent = 'Added ✓'; setTimeout(() => t.textContent = 'Add to cart', 1200); }
+  }
+  else if (t.dataset.add) { cart[t.dataset.add]++; save(); renderCart(); }
+  else if (t.dataset.dec) { if (--cart[t.dataset.dec] <= 0) delete cart[t.dataset.dec]; save(); renderCart(); }
 });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeQuick(); });
 $('cartBtn').onclick = () => location.hash = 'checkout';
-$('authBtn').onclick = async () => {
-  if (me) { await api('/auth/logout', { method: 'POST' }); me = null; renderAuth(); }
-  else location.href = '/auth/google';
-};
+$('search').addEventListener('input', e => {
+  q = e.target.value;
+  if (location.hash.startsWith('#shop')) renderShop(); else location.hash = 'shop';
+});
 $('placeBtn').onclick = async () => {
   $('msg').className = 'msg'; $('msg').textContent = 'Placing your order…'; $('placeBtn').disabled = true;
   try {
     const items = Object.entries(cart).map(([key, quantity]) => { const [id, size] = key.split('|'); return { productId: +id, size, quantity }; });
-    const r = await api('/api/checkout', { method: 'POST', body: JSON.stringify({
-      fullName: $('fullName').value, address: $('address').value, items }) });
+    const r = await api('/api/checkout', { method: 'POST', body: JSON.stringify({ fullName: $('fullName').value, address: $('address').value, items }) });
     cart = {}; save(); renderCart();
     $('doneText').textContent = `Order #${r.orderId} for ${money(r.total_kobo)} is saved. ` +
       (r.emailSent ? `A confirmation is on its way to ${me.email}.` : 'We could not send the confirmation email, but your order is safe.');
@@ -188,8 +336,9 @@ window.addEventListener('hashchange', route);
 
 (async () => {
   try { [products, me] = await Promise.all([api('/api/products'), api('/api/me')]); }
-  catch (e) { $('grid').textContent = 'Could not load products. Refresh to try again.'; return; }
-  renderProducts(); renderAuth(); renderCart(); route();
+  catch (e) { $('homeGrid').textContent = $('shopGrid').textContent = 'Could not load products. Refresh to try again.'; return; }
+  $('homeGrid').innerHTML = products.slice(0, 10).map(card).join('');
+  renderAuth(); renderCart(); route();
 })();
 </script>
 </body>
