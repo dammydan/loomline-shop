@@ -43,6 +43,19 @@ CREATE TABLE IF NOT EXISTS "session" (
 );
 CREATE INDEX IF NOT EXISTS "IDX_session_expire" ON "session" ("expire");
 
+-- Admin panel additions (safe to re-run)
+ALTER TABLE products ADD COLUMN IF NOT EXISTS active BOOLEAN NOT NULL DEFAULT true;  -- "removed" products are hidden, not deleted, so old orders still work
+CREATE TABLE IF NOT EXISTS product_images (   -- photos uploaded from the admin panel
+  id SERIAL PRIMARY KEY,
+  mime TEXT NOT NULL,
+  data BYTEA NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+CREATE TABLE IF NOT EXISTS daily_views (      -- simple visit counter for the stats page
+  day DATE PRIMARY KEY,
+  views INTEGER NOT NULL DEFAULT 0
+);
+
 -- Only seeds when the products table is empty, so re-running this file is safe.
 INSERT INTO products (name, description, price_kobo, sizes, image_url)
 SELECT * FROM (VALUES

@@ -21,3 +21,20 @@ Render or Railway work well. Set the same env vars, set `BASE_URL` to the live U
 
 ## Product photos
 Add your photos to `public/images/` (see the README.txt in that folder), or set `image_url` to any https image link in the `products` table.
+
+
+Put your photos in this folder (JPG, ideally under 400 KB each).
+
+PRODUCT PHOTOS (square, about 1000 x 1000 px). Names must match exactly:
+  classic-white-tee.jpg
+  ankara-print-shirt.jpg
+  denim-jacket.jpg
+  pleated-midi-skirt.jpg
+  slim-chinos.jpg
+  linen-kaftan-dress.jpg
+
+PAGE PHOTOS (optional; without them the site reuses product photos):
+  hero.jpg    landscape or square, about 1600 x 1200 px (top of the home page)
+  story.jpg   landscape or square, about 1400 x 1000 px (the "Simple pieces. Better days." section)
+
+Use lowercase names. Only use photos you own or that are free to use commercially.
